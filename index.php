@@ -2,75 +2,8 @@
 <html lang="en">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style type="text/css">
-		body {
-  background: #2d343d;
-}
+	<link rel="stylesheet" type="text/css"  href="style/style.css">
 
-.login {
-  margin: 20px auto;
-  width: 300px;
-  padding: 30px 25px;
-  background: white;
-  border: 1px solid #c4c4c4;
-}
-
-h1.login-title {
-  margin: -28px -25px 25px;
-  padding: 15px 25px;
-  line-height: 30px;
-  font-size: 25px;
-  font-weight: 300;
-  color: #ADADAD;
-  text-align:center;
-  background: #f7f7f7;
- 
-}
-
-.login-input {
-  width: 285px;
-  height: 50px;
-  margin-bottom: 25px;
-  padding-left:10px;
-  font-size: 15px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.login-input:focus {
-    border-color:#6e8095;
-    outline: none;
-  }
-.login-button {
-  width: 100%;
-  height: 50px;
-  padding: 0;
-  font-size: 20px;
-  color: #fff;
-  text-align: center;
-  background: #f0776c;
-  border: 0;
-  border-radius: 5px;
-  cursor: pointer; 
-  outline:0;
-}
-
-.login-lost
-{
-  text-align:center;
-  margin-bottom:0px;
-}
-
-.login-lost a
-{
-  color:#666;
-  text-decoration:none;
-  font-size:13px;
-}
-
-
-
-	</style>
 	<title>Sing up</title>
 <?php
 require  'dbconf.php';
@@ -99,43 +32,55 @@ else {
 }
 $ip = Get_IP_and_say_hello();
 
-
+$cla =".клас";
 ?>
 </head>
 <body>
+ <h1 class="login-title">СУ "Козма Тричков"</h1>
 <form class="login" action="#" method="post">
-    <h1 class="login-title">Sing up first</h1>
-    <h2 class="login-title"><?php echo "Hello:$ip";?></h2>
-    <input type="text" 	   name="email" 		class="login-input" placeholder="Email Adress" autofocus>
-    <input type="text" 	   name="name" 			class="login-input" placeholder="Name"  >
-    <input type="text" 	   name="second_name" 	class="login-input" placeholder="Last name" >
-	<input type="password" name="password" 		class="login-input" placeholder="password">
-	<input type="submit"   name="submit" 		class="login-button"value="Resgister" >
-  <p class="login-lost"><a href="index.php">Forgot Password?</a></p>
+    <h2 class="login-title">Анкета</h2>
+    <h3 class="login-title"><?php echo "Здравей:$ip";?></h3>
+    <input type="text" 	   name="name" 	class="login-input" placeholder="Име"  autofocus>
+    <input type="text"     name="song"  class="login-input" placeholder="Постави избраната песен">
+    <input type="text" name="wish" class="login-input" placeholder="Поздрав към песента(не е задължително)">
+    <select name="class" class="login-input"  >
+        <?php
+            for ($i=5; $i <=12 ; $i++) { 
+              echo '<option value='.$i.".klas".'>';
+                echo "$i"."$cla";
+              echo "</option>";
+          }
+          
+       ?>
+    </select>
+    <input type="submit"   name="submit" class="login-button" value="Гласувай" >
+
   </form>
   <?php
-
+        
 		if (!empty($_POST)) {
-		$firstname = $_POST['name'];
-		$lastname  = $_POST['second_name'];
-		$email = $_POST['email'];
-		$password = $_POST['password'];
-		
+        $wish = $_POST["wish"];        
+        $name = $_POST["name"];
+        $song = $_POST["song"];
+        
+        $class = $_POST["class"];
 
 
 
 
 
-
-$sql = "INSERT INTO mydb (firstname, lastname, email, password, ipaddress) VALUES ('$firstname', '$lastname', '$email', '$password', '$ip')";
+$sql = "INSERT INTO quest (name, song, wish, ip, class) VALUES ('$name', '$song', '$wish', '$ip', '$class')";
 
 
 function test($conn, $sql){
+    $str = 'Благодарим за участието!';
 	if ($conn->query($sql) === TRUE) {
-   
+     echo '<h1 class="login-title">';
+     echo "$str";
+     echo "</h1>";
 }
  else {
-    echo "not good: " . $conn->error;
+    echo "ERROR: " . $conn->error;
 }
 
 }
