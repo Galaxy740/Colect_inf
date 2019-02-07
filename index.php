@@ -11,6 +11,8 @@ require  'dbconf.php';
 
 
 
+
+
 function Get_IP_and_say_hello()
 {
 
@@ -38,9 +40,10 @@ $cla =".клас";
 <body>
  <h1 class="login-title">СУ "Козма Тричков"</h1>
 <form class="login" action="#" method="post">
-    <h2 class="login-title">Анкета</h2>
+    <h2 class="login-title">Анкета за подбор на песни звучащи по време на междучасията на 14.02.2019</h2>
+    <h4 class="login-title">/Данните се въвеждат само на латиница/</h4>
     <h3 class="login-title"><?php echo "Здравей:$ip";?></h3>
-    <input type="text" 	   name="name" 	class="login-input" placeholder="Име"  autofocus>
+     <input type="text" name="name" class="login-input" placeholder="Име" autofocus> 
     <input type="text"     name="song"  class="login-input" placeholder="Постави избраната песен">
     <input type="text" name="wish" class="login-input" placeholder="Поздрав към песента(не е задължително)">
     <select name="class" class="login-input"  >
@@ -64,13 +67,26 @@ $cla =".клас";
         $song = $_POST["song"];
         
         $class = $_POST["class"];
+        $arr_user_input = [$wish, $name, $song,$class];
+         $converted =  implode(" ", $arr_user_input);
+        /*var_dump($converted);*/
+            function regex_cheking($converted){
+                $filter = '/([а-я])/';
+                $result = preg_match_all($filter, $converted);
+                /*var_dump($result);*/
+                if ($result > 0 ) {
+                    $string_for_out = '';
+                    echo "$string_for_out";
+                    /*clearing DATABASE FOR ECONOMY SPACE*/
+                    unset($_POST, $sql);
+                }
+
+            }
+            $sql = "INSERT INTO quest (name, song, wish, ip, class) VALUES ('$name', '$song', '$wish', '$ip', '$class')";
 
 
 
-
-
-$sql = "INSERT INTO quest (name, song, wish, ip, class) VALUES ('$name', '$song', '$wish', '$ip', '$class')";
-
+            regex_cheking($converted);
 
 function test($conn, $sql){
     $str = 'Благодарим за участието!';
