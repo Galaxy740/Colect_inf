@@ -13,8 +13,6 @@ require  'dbconf.php';
 
 function Get_IP_and_say_hello()
 {
-
-
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip_address = $_SERVER['HTTP_CLIENT_IP'];
 }
@@ -27,7 +25,6 @@ else {
 	
 	return $ip_address;
 	/*var_dump($ip_address);*/
-
 
 }
 $ip = Get_IP_and_say_hello();
